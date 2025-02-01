@@ -8,7 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/candidats")
 public class CandidatRestAPI {
     private String title="Hello, I'm the candidat Microservice";
     @RequestMapping("/hello")
@@ -16,14 +19,20 @@ public class CandidatRestAPI {
         System.out.println(title);
         return title;
     }
-    @Autowired
+
+        @Autowired
     private CandidatService candidatService;
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Candidat> createCandidat(@RequestBody Candidat candidat) {
         return new ResponseEntity<>(candidatService.addCandidat(candidat), HttpStatus.OK);
     }
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Candidat>> getAllCandidats() {
+        List<Candidat> candidats = candidatService.getAllCandidats();
+        return ResponseEntity.ok(candidats);
+    }
+        @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Candidat> updateCandidat(@PathVariable(value = "id") int id,
                                                    @RequestBody Candidat candidat){
