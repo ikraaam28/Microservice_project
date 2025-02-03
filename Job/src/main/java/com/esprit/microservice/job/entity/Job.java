@@ -21,4 +21,7 @@ public class Job {
     private boolean etat;  // true = disponible, false = occupé
 
 
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
 }
